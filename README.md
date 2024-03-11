@@ -22,3 +22,18 @@ Controller: connection point between your model and view
 e.g. how do you process the data and present it into a renderable format
 Routes are part of your controller
 
+# SQL vs NoSQL
+SQL: relational database
+NoSQL: non-relational (no data schema), you don't need to join tables to retrive data, but we have to update every instance
+
+## Horizontal vs Vertical Scaling
+Horizontal: we just add more servers
+Vertical Scaling: Improve Server capacity
+
+SQL is hard to horizontal scale based on its nature
+NoSQL is easier to horizontally scale
+Better performance 
+
+## 
+
+

@@ -3,14 +3,14 @@ const path = require("path");
 const router = express.Router();
 const rootDir = require("../utils/path");
 
-router.use("/gas-plans",(req,res,next)=>{
-    console.log("middle-ware-01");
-    res.sendFile(path.join(rootDir,"views","pages","gas-plan.html"));
-})
+router.get("/get-courses", (req, res, next) => {
+  console.log("get-all-courses");
+  res.sendFile(path.join(rootDir, "views", "pages", "gas-plan.html"));
+});
 
-router.use("/electricity-plans",(req,res,next)=>{
-    console.log("middle-ware-02");
-    res.send("<h1>Here are the house plans<h1/>");
-})
+router.post("/get-courses", (req, res, next) => {
+  console.log("searching courses");
+  res.send("<h1>Search Courses<h1/>");
+});
 
 module.exports = router;

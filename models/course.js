@@ -19,19 +19,24 @@ const Course = database.define("course", {
   code: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
   },
   currentEnrollment: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   shortDesc: {
     type: Sequelize.STRING,
     allowNull: true,
   },
   longDesc: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: true,
   },
+  createdBy: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  }
 });
 
 module.exports = Course;

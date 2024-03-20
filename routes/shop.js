@@ -1,16 +1,14 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const rootDir = require("../utils/path");
+const course = require("../models/course");
+const sequelize = require("sequelize");
+const getCourses = require("../controllers/get-courses");
+const fetchCourse = require("../controllers/get-courses");
 
-router.get("/get-courses", (req, res, next) => {
-  console.log("get-all-courses");
-  res.sendFile(path.join(rootDir, "views", "pages", "gas-plan.html"));
-});
+router.get("/get-courses", getCourses);
 
-router.post("/get-courses", (req, res, next) => {
-  console.log("searching courses");
-  res.send("<h1>Search Courses<h1/>");
-});
+// Find by parameter: exact match
+router.get("/fetch-course", fetchCourse);
 
 module.exports = router;

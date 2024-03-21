@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const database = require("../utils/database");
 
-const Roster = database.define("catelog",{
+const Roster = database.define("roster",{
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

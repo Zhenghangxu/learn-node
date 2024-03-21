@@ -36,7 +36,7 @@ const Course = database.define("course", {
   createdBy: {
     type: Sequelize.INTEGER,
     allowNull: true,
-  }
+  },
 });
 
 module.exports = Course;

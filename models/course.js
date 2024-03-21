@@ -37,6 +37,10 @@ const Course = database.define("course", {
     type: Sequelize.INTEGER,
     allowNull: true,
   },
+  termId: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  }
 });
 
 module.exports = Course;

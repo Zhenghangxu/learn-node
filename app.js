@@ -1,11 +1,14 @@
 const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
+
+// Sequelize
 const database = require("./utils/database");
 const course = require("./models/course");
 const user = require("./models/user");
 const Roster = require("./models/roaster");
 const RosterItem = require("./models/roster-item");
+const term = require("./models/term");
 
 const app = express();
 
@@ -26,6 +29,7 @@ user.hasMany(course, { foreignKey: "createdBy" });
 user.hasOne(Roster);
 Roster.belongsToMany(course, { through: RosterItem });
 course.belongsToMany(Roster, { through: RosterItem });
+term.hasMany(course, { foreignKey: "termId" });
 
 // this will intelligently parse the body for every request
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -58,7 +62,7 @@ app.use((req, res, next) => {
 
 // this sync your model with the database
 database
-  .sync()
+  .sync({ force: true})
   // TODO: replace this with the cookied user; User 5 is super user for now
   .then((result) => {
     return user.findByPk(1);

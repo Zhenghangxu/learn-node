@@ -1,6 +1,7 @@
 const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 
 // Sequelize
 const database = require("./utils/database");
@@ -11,12 +12,17 @@ const RosterItem = require("./models/roster-item");
 const term = require("./models/term");
 
 const app = express();
+// Session
+app.use(
+  session({ secret: "secrate ABC123", resave: false, saveUninitialized: false })
+);
 
+// Routes
 const signUpRoute = require("./routes/signUp");
 const shopRoute = require("./routes/shop");
 const adminRoute = require("./routes/admin");
 const path = require("path");
-const Course = require("./models/course");
+const loginRoute = require("./routes/login");
 
 // Associations
 // one admin creates course
@@ -49,6 +55,7 @@ app.use((req, res, next) => {
 app.use(signUpRoute);
 app.use("/admin", adminRoute);
 app.use("/explore", shopRoute);
+app.use(loginRoute);
 
 // event driven artictecture
 const server = http.createServer(app);
@@ -62,7 +69,7 @@ app.use((req, res, next) => {
 
 // this sync your model with the database
 database
-  .sync({ force: true})
+  .sync()
   // TODO: replace this with the cookied user; User 5 is super user for now
   .then((result) => {
     return user.findByPk(1);

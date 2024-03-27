@@ -4,7 +4,7 @@ const Course = require("../models/course");
 const enrollCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   const userId = req.body.userId;
-  //   const userId = req.currentUser.id;
+  //   const userId = req.session.currentUser.id;
   let fetchedRoster;
   User.findByPk(userId)
     .then((user) => {

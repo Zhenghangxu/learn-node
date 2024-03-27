@@ -10,12 +10,22 @@ const user = require("./models/user");
 const Roster = require("./models/roaster");
 const RosterItem = require("./models/roster-item");
 const term = require("./models/term");
+//configure session store
+const sequelizeStore = require("connect-session-sequelize")(session.Store);
+
+
 
 const app = express();
 // Session
 app.use(
-  session({ secret: "secrate ABC123", resave: false, saveUninitialized: false })
+  session({
+    secret: "secrate ABC123",
+    resave: false,
+    saveUninitialized: false,
+    store: new sequelizeStore({ db: database }),
+  })
 );
+
 
 // Routes
 const signUpRoute = require("./routes/signUp");
@@ -41,16 +51,16 @@ term.hasMany(course, { foreignKey: "termId" });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Dummy User for testing
-app.use((req, res, next) => {
-  user
-    .findByPk(1)
-    .then((user) => {
-      req.currentUser = user;
-      console.log("Current User!", req.currentUser);
-      next();
-    })
-    .catch((err) => console.log(err));
-});
+// app.use((req, res, next) => {
+//   user
+//     .findByPk(1)
+//     .then((user) => {
+//       req.session.currentUser = user;
+//       console.log("Current User!", req.session.currentUser);
+//       next();
+//     })
+//     .catch((err) => console.log(err));
+// });
 
 app.use(signUpRoute);
 app.use("/admin", adminRoute);

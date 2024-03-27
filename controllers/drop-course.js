@@ -5,7 +5,7 @@ const dropCourse = (req, res, next) => {
   const courseId = req.body.courseId;
   const userId = req.body.userId;
   let updatedCourseList;
-  //   const userId = req.currentUser.id;
+  //   const userId = req.session.currentUser.id;
   User.findByPk(userId)
     .then((user) => {
       return user.getRoster();

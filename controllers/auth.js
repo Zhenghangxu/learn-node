@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const bcrypt = require("bcryptjs");
+
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
@@ -40,11 +42,15 @@ exports.postSignUp = (req, res, next) => {
   User.findAll({ where: { email: email } })
     .then((user) => {
       if (user.length > 0) {
-        return res.json({ message: "User already exist!" });
+        res.json({ message: "User already exist!" });
+        throw new Error("User already exist!");
       }
+      return bcrypt.hash(password, 12);
+    })
+    .then((hashedPassword)=>{
       return User.create({
         email: email,
-        password: password,
+        password: hashedPassword,
         userName: userName,
       });
     })
@@ -54,7 +60,7 @@ exports.postSignUp = (req, res, next) => {
       req.session.currentUser = user;
       //create a roster
       user.createRoster();
-      res.json({ message: "User created!", user: user });
+      res.json({ message: "User created!", user: {email:user.email,userName:user.userName} });
     })
     .catch((err) => console.log(err));
 };

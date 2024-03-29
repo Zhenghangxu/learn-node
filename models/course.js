@@ -15,6 +15,7 @@ const Course = database.define("course", {
   capacity: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    defaultValue: 10,
   },
   code: {
     type: Sequelize.STRING,
@@ -24,6 +25,7 @@ const Course = database.define("course", {
   currentEnrollment: {
     type: Sequelize.INTEGER,
     allowNull: true,
+    defaultValue: 0,
   },
   shortDesc: {
     type: Sequelize.STRING,

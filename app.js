@@ -86,7 +86,8 @@ database
   })
   .then((selectedUser) => {
     if (!selectedUser) {
-      return user.create({ userName: "jason", email: "xujason1234@gmail.com" });
+      // TODO: remove this super user later
+      return user.create({ userName: "jason", email: "xujason1234@gmail.com", password: "1234"});
     }
     return selectedUser;
   })

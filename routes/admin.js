@@ -18,7 +18,7 @@ router.post("/edit-course", editCourse);
 router.post("/delete-course", deleteCourse);
 
 // add user
-router.post("/add-user", addUser);
+// router.post("/add-user", addUser);
 
 // get user
 router.post("/get-user",getUser);

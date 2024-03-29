@@ -1,7 +1,8 @@
 const User = require("../models/user");
+
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
-//   const password = req.body.password;
+  //   const password = req.body.password;
   User.findAll({ where: { email: email } })
     .then((user) => {
       if (!user[0]) {
@@ -23,4 +24,37 @@ exports.postLogin = (req, res, next) => {
 
   // res.json({message: "Logged in!"});
   //   res.send("<h1>Logged in!</h1>");
+};
+exports.postLogOut = (req, res, next) => {
+  req.session.destroy(() => {
+    res.json({ message: "session expired!" });
+  });
+};
+
+exports.postSignUp = (req, res, next) => {
+  const password = req.body.password;
+  const email = req.body.email;
+  const userName = req.body.userName;
+
+  // check if user already exist
+  User.findAll({ where: { email: email } })
+    .then((user) => {
+      if (user.length > 0) {
+        return res.json({ message: "User already exist!" });
+      }
+      return User.create({
+        email: email,
+        password: password,
+        userName: userName,
+      });
+    })
+    .then((user) => {
+      //create a session
+      req.session.isLoggedIn = true;
+      req.session.currentUser = user;
+      //create a roster
+      user.createRoster();
+      res.json({ message: "User created!", user: user });
+    })
+    .catch((err) => console.log(err));
 };

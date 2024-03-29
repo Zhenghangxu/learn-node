@@ -22,6 +22,11 @@ const enrollCourse = (req, res, next) => {
       }
       Course.findByPk(courseId)
         .then((course) => {
+          if (course.capacity - course.currentEnrollment <= 0) {
+            res.json({ message: "Course is full!" });
+            return;
+          }
+          course.currentEnrollment += 1;
           return fetchedRoster.addCourse(course);
         })
         .then(() => {

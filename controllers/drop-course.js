@@ -22,6 +22,7 @@ const dropCourse = (req, res, next) => {
         }
         const course = courses[0];
         course.rosterItem.destroy();
+        course.currentEnrollment -= 1;
     })
     .then((result) => {
         res.json({ message: "Course Dropped!",  });

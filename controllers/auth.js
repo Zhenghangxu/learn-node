@@ -53,6 +53,7 @@ exports.postSignUp = (req, res, next) => {
   const password = req.body.password;
   const email = req.body.email;
   const userName = req.body.userName;
+  const adminCode = req.body.adminCode;
 
   // check if user already exist
   User.findAll({ where: { email: email } })
@@ -68,6 +69,8 @@ exports.postSignUp = (req, res, next) => {
         email: email,
         password: hashedPassword,
         userName: userName,
+        // TODO: add a check for adminCode
+        role: adminCode === "admin" ? "admin" : "user",
       });
     })
     .then((user) => {

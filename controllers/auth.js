@@ -1,5 +1,8 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+// const { doubleCsrf } = require("csrf-csrf");
+
+// const {generateToken} = doubleCsrf();
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
@@ -91,4 +94,4 @@ exports.postSignUp = (req, res, next) => {
 
 exports.getCSRFToken = (req, res, next) => {
   res.json({ csrfToken: req.csrfToken() });
-}
+};

@@ -5,9 +5,9 @@ const {getCSRFToken} = require("../controllers/auth");
 const express = require("express");
 const router = express.Router();
 
+router.get("/csrf-token", getCSRFToken);
 router.post("/log-in", postLogin);
 router.post("/log-out", postLogOut);
-router.get("/csrf-token", getCSRFToken);
 
 module.exports = router;
 

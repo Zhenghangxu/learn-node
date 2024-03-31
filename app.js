@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 
 // CSRF
-const csrf = require("csurf");
+const {doubleCsrf} = require("csrf-csrf");
 
 // Sequelize
 const database = require("./utils/database");
@@ -17,7 +17,7 @@ const term = require("./models/term");
 const sequelizeStore = require("connect-session-sequelize")(session.Store);
 
 
-const csrfProtection = csrf({ cookie: true});
+const {doubleCsrfProtection} = doubleCsrf();
 
 const app = express();
 // Session
@@ -31,7 +31,7 @@ app.use(
 );
 // TODO: add csrf token to FE form when developing the react app
 // enable this after that is complete
-// app.use(csrfProtection); 
+// app.use(doubleCsrfProtection); 
 
 
 // Routes

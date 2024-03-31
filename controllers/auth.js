@@ -86,3 +86,9 @@ exports.postSignUp = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+// enable this CSRF after project is complete
+
+exports.getCSRFToken = (req, res, next) => {
+  res.json({ csrfToken: req.csrfToken() });
+}

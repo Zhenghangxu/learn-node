@@ -26,5 +26,5 @@ const user = database.define("user", {
     allowNull: false,
   },
 });
-
+ 
 module.exports = user;

@@ -2,6 +2,7 @@ const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const cookieParser = require("cookie-parser"); 
 
 // CSRF
 const {doubleCsrf} = require("csrf-csrf");
@@ -13,11 +14,13 @@ const user = require("./models/user");
 const Roster = require("./models/roaster");
 const RosterItem = require("./models/roster-item");
 const term = require("./models/term");
+const Institution = require("./models/institution");
+
 //configure session store
 const sequelizeStore = require("connect-session-sequelize")(session.Store);
 
 
-const {doubleCsrfProtection} = doubleCsrf();
+const {doubleCsrfProtection} = doubleCsrf({secret: "123-csrf"});
 
 const app = express();
 // Session
@@ -29,6 +32,7 @@ app.use(
     store: new sequelizeStore({ db: database }),
   })
 );
+app.use(cookieParser({ secret: "ParseCookie123"}));
 // TODO: add csrf token to FE form when developing the react app
 // enable this after that is complete
 // app.use(doubleCsrfProtection); 
@@ -40,6 +44,7 @@ const shopRoute = require("./routes/shop");
 const adminRoute = require("./routes/admin");
 const path = require("path");
 const loginRoute = require("./routes/login");
+const institution = require("./models/institution");
 
 // Associations
 // one admin creates course
@@ -53,6 +58,9 @@ user.hasOne(Roster);
 Roster.belongsToMany(course, { through: RosterItem });
 course.belongsToMany(Roster, { through: RosterItem });
 term.hasMany(course, { foreignKey: "termId" });
+user.belongsTo(Institution, { foreignKey: "institutionId" });
+institution.hasMany(user, { foreignKey: "institutionId" });
+
 
 // this will intelligently parse the body for every request
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -86,7 +94,7 @@ app.use((req, res, next) => {
 
 // this sync your model with the database
 database
-  .sync()
+  .sync({ force: true})
   // TODO: replace this with the cookied user; User 5 is super user for now
   .then((result) => {
     return user.findByPk(1);
@@ -94,11 +102,11 @@ database
   .then((selectedUser) => {
     if (!selectedUser) {
       // TODO: remove this super user later
-      return user.create({ userName: "jason", email: "xujason1234@gmail.com", password: "1234"});
+      return user.create({ userName: "jason", email: "xujason1234@gmail.com", password: "1234", role: "admin"});
     }
     return selectedUser;
   })
-  .then(async (selectedUser) => {
+  .then(async (selectedpUser) => {
     const existingRoster = await selectedUser.getRoster();
     if (!existingRoster) {
       // If the user doesn't have a roster, create one

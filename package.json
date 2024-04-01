@@ -3,6 +3,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "connect-session-sequelize": "^7.1.7",
+    "cookie-parser": "^1.4.6",
     "csrf-csrf": "^3.0.3",
     "csurf": "^1.11.0",
     "ejs": "^3.1.9",

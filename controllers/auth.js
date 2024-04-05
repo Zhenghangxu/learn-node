@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
+
 // const { doubleCsrf } = require("csrf-csrf");
 
 // const {generateToken} = doubleCsrf();
@@ -8,6 +10,11 @@ exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const passcode = req.body.password;
   const currentLoginedUser = req.session.currentUser;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // 422 is a status code for validation error
+    res.status(422).json({ message: errors.array() });
+  }
   //   const password = req.body.password;
   if (!passcode) {
     res.status(400).json({ message: "password is required" });
@@ -97,3 +104,9 @@ exports.postSignUp = (req, res, next) => {
 exports.getCSRFToken = (req, res, next) => {
   res.json({ csrfToken: req.csrfToken() });
 };
+
+
+exports.postResetPassword = (req,res,next) => {
+  const eamil = req.body.email;
+
+}

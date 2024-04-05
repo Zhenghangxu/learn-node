@@ -3,9 +3,8 @@ const Roster = require("../models/roaster");
 const Course = require("../models/course");
 const dropCourse = (req, res, next) => {
   const courseId = req.body.courseId;
-  const userId = req.body.userId;
-  let updatedCourseList;
-  //   const userId = req.session.currentUser.id;
+  // const userId = req.body.userId;
+    const userId = req.session.currentUser.id;
   User.findByPk(userId)
     .then((user) => {
       return user.getRoster();

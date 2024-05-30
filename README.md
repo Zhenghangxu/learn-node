@@ -1,4 +1,6 @@
-# Node.js Basic
+## What is This?
+This is the repo for Edisco's backend API calls, also a repo for me to learn and grow my node skills.
+
 ## What is event loop?
 ## how to get request properties
 ## how to set response
